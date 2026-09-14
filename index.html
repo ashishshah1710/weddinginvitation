@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#fdf1e6" />
+    <meta name="description" content="A wedding invitation." />
+    <title>A Wedding Invitation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cream: #fdf1e6;
+        --cream-deep: #f6ede1;
+        --maroon: #9c3a2f;
+        --maroon-dark: #7c2e25;
+        --terracotta: #a8503c;
+        --gold: #c9a27a;
+        --gold-light: #e4c9a8;
+        --ink: #4a2c24;
+        --font-heading: "Cinzel", serif;
+        --font-display: "Playfair Display", serif;
+        --font-body: "Cormorant Garamond", serif;
+        --font-script: "Great Vibes", cursive;
+        --font-ornate: "Cinzel Decorative", serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-body);
+        background: var(--cream);
+        color: var(--ink);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      button,
+      input,
+      textarea,
+      select {
+        font-family: inherit;
+      }
+
+      #sparkle {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .cover {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(ellipse at 50% 20%, rgba(201, 162, 122, 0.28), transparent 55%),
+          linear-gradient(180deg, #f8ead8 0%, var(--cream) 45%, #f3ddc8 100%);
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+      }
+
+      .cover.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .cover-card {
+        width: min(92vw, 420px);
+        padding: 2.6rem 1.8rem 2.2rem;
+        text-align: center;
+        border: 1px solid rgba(201, 162, 122, 0.55);
+        background: rgba(253, 241, 230, 0.78);
+        box-shadow:
+          0 24px 60px rgba(124, 46, 37, 0.12),
+          inset 0 0 0 8px rgba(201, 162, 122, 0.12);
+        position: relative;
+      }
+
+      .cover-card::before,
+      .cover-card::after {
+        content: "";
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border-color: var(--gold);
+        border-style: solid;
+      }
+
+      .cover-card::before {
+        top: 10px;
+        left: 10px;
+        border-width: 1px 0 0 1px;
+      }
+
+      .cover-card::after {
+        bottom: 10px;
+        right: 10px;
+        border-width: 0 1px 1px 0;
+      }
+
+      .kicker {
+        font-family: var(--font-heading);
+        letter-spacing: 0.38em;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        color: var(--terracotta);
+      }
+
+      .script-title {
+        font-family: var(--font-script);
+        font-size: clamp(2.6rem, 8vw, 3.6rem);
+        color: var(--maroon);
+        line-height: 1.05;
+        margin: 0.7rem 0 0.2rem;
+      }
+
+      .amp {
+        font-family: var(--font-script);
+        color: var(--gold);
+        display: block;
+        font-size: 1.6rem;
+        margin: -0.2rem 0;
+      }
+
+      .ornament {
+        color: var(--gold);
+        letter-spacing: 0.4em;
+        margin: 0.9rem 0 1.1rem;
+        font-size: 0.85rem;
+      }
+
+      .open-btn {
+        appearance: none;
+        border: 1px solid var(--gold);
+        background: linear-gradient(180deg, var(--maroon) 0%, var(--maroon-dark) 100%);
+        color: #fdf1e6;
+        font-family: var(--font-heading);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        padding: 0.95rem 1.4rem;
+        cursor: pointer;
+        width: 100%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .open-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 24px rgba(124, 46, 37, 0.22);
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: none;
+        justify-content: center;
+        gap: 1.4rem;
+        padding: 0.85rem 1rem;
+        background: rgba(253, 241, 230, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(201, 162, 122, 0.35);
+      }
+
+      .nav a {
+        font-family: var(--font-heading);
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--maroon);
+        text-decoration: none;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        display: none;
+      }
+
+      .page.visible,
+      .nav.visible {
+        display: block;
+      }
+
+      .nav.visible {
+        display: flex;
+      }
+
+      section {
+        padding: 4.2rem 1.25rem;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        text-align: center;
+        padding-top: 3.4rem;
+      }
+
+      .hero h1 {
+        font-family: var(--font-ornate);
+        font-size: clamp(1.6rem, 5vw, 2.3rem);
+        font-weight: 400;
+        color: var(--maroon-dark);
+        letter-spacing: 0.12em;
+      }
+
+      .hero .names {
+        font-family: var(--font-script);
+        font-size: clamp(3rem, 11vw, 5rem);
+        color: var(--maroon);
+        margin: 0.4rem 0 0.3rem;
+      }
+
+      .date-line {
+        font-family: var(--font-heading);
+        letter-spacing: 0.28em;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        color: var(--terracotta);
+      }
+
+      .invite-copy {
+        font-size: 1.28rem;
+        line-height: 1.7;
+        font-style: italic;
+        text-align: center;
+        max-width: 34rem;
+        margin: 1.4rem auto 0;
+      }
+
+      .countdown {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.7rem;
+        margin-top: 2.2rem;
+      }
+
+      .count-box {
+        border: 1px solid rgba(201, 162, 122, 0.5);
+        background: rgba(255, 255, 255, 0.28);
+        padding: 0.9rem 0.2rem;
+        text-align: center;
+      }
+
+      .count-box strong {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 1.7rem;
+        color: var(--maroon);
+        font-weight: 600;
+      }
+
+      .count-box span {
+        font-family: var(--font-heading);
+        font-size: 0.62rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--terracotta);
+      }
+
+      h2 {
+        font-family: var(--font-heading);
+        text-align: center;
+        font-weight: 500;
+        letter-spacing: 0.28em;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        color: var(--maroon);
+        margin-bottom: 1.6rem;
+      }
+
+      .couple-grid {
+        display: grid;
+        gap: 1.2rem;
+      }
+
+      @media (min-width: 640px) {
+        .couple-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .person {
+        text-align: center;
+        padding: 1.6rem 1rem;
+        border: 1px solid rgba(201, 162, 122, 0.45);
+        background: rgba(255, 255, 255, 0.22);
+      }
+
+      .avatar {
+        width: 118px;
+        height: 118px;
+        margin: 0 auto 1rem;
+        border-radius: 50%;
+        border: 2px solid var(--gold);
+        background:
+          radial-gradient(circle at 35% 30%, #f8ead8, #e8c9ae 55%, #c9a27a);
+        display: grid;
+        place-items: center;
+        font-family: var(--font-script);
+        font-size: 2.4rem;
+        color: var(--maroon-dark);
+      }
+
+      .person h3 {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: var(--maroon-dark);
+      }
+
+      .person p {
+        font-size: 1.05rem;
+        margin-top: 0.35rem;
+        opacity: 0.86;
+      }
+
+      .events {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .event {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        gap: 1rem;
+        align-items: center;
+        padding: 1rem 1.1rem;
+        border-left: 2px solid var(--gold);
+        background: rgba(255, 255, 255, 0.24);
+      }
+
+      .event time {
+        font-family: var(--font-heading);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        color: var(--terracotta);
+      }
+
+      .event h3 {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+
+      .venue {
+        text-align: center;
+      }
+
+      .venue p {
+        font-size: 1.2rem;
+        line-height: 1.65;
+      }
+
+      .map-btn {
+        display: inline-block;
+        margin-top: 1.3rem;
+        text-decoration: none;
+        border: 1px solid var(--gold);
+        color: var(--maroon);
+        font-family: var(--font-heading);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.68rem;
+        padding: 0.8rem 1.2rem;
+      }
+
+      form {
+        display: grid;
+        gap: 0.85rem;
+      }
+
+      label {
+        font-family: var(--font-heading);
+        font-size: 0.68rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--terracotta);
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        border: 1px solid rgba(201, 162, 122, 0.55);
+        background: rgba(255, 255, 255, 0.45);
+        padding: 0.75rem 0.8rem;
+        color: var(--ink);
+        font-size: 1.05rem;
+      }
+
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .choice {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7rem;
+      }
+
+      .choice button {
+        border: 1px solid var(--gold);
+        background: transparent;
+        padding: 0.8rem;
+        cursor: pointer;
+        font-family: var(--font-heading);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.68rem;
+        color: var(--maroon);
+      }
+
+      .choice button.active {
+        background: var(--maroon);
+        color: var(--cream);
+      }
+
+      footer {
+        text-align: center;
+        padding: 1.4rem 1rem 2.6rem;
+        font-family: var(--font-script);
+        font-size: 1.6rem;
+        color: var(--maroon);
+      }
+
+      .divider {
+        text-align: center;
+        color: var(--gold);
+        letter-spacing: 0.5em;
+        margin: 0.2rem 0 0.6rem;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="sparkle"></canvas>
+
+    <div class="cover" id="cover">
+      <div class="cover-card">
+        <p class="kicker">Together with their families</p>
+        <p class="script-title" data-name="partner1">Ashish</p>
+        <span class="amp">&</span>
+        <p class="script-title" data-name="partner2">Pooja</p>
+        <div class="ornament">✦ ✦ ✦</div>
+        <p class="date-line" data-date-short></p>
+        <div style="height: 1.2rem"></div>
+        <button class="open-btn" id="openBtn" type="button">Open the invitation</button>
+      </div>
+    </div>
+
+    <nav class="nav" id="nav">
+      <a href="#invitation">Invitation</a>
+      <a href="#couple">Couple</a>
+      <a href="#events">Events</a>
+      <a href="#rsvp">RSVP</a>
+    </nav>
+
+    <main class="page" id="page">
+      <section class="hero" id="invitation">
+        <p class="kicker">The wedding of</p>
+        <p class="names"><span data-name="partner1">Ashish</span> <span class="amp" style="display: inline">&</span> <span data-name="partner2">Pooja</span></p>
+        <p class="date-line" data-date-long></p>
+        <div class="divider">❀</div>
+        <p class="invite-copy" data-invite-copy></p>
+        <div class="countdown" id="countdown"></div>
+      </section>
+
+      <section id="couple">
+        <h2>The couple</h2>
+        <div class="couple-grid">
+          <article class="person">
+            <div class="avatar" data-initial="partner1">A</div>
+            <h3 data-name="partner1">Ashish</h3>
+            <p data-side="partner1"></p>
+          </article>
+          <article class="person">
+            <div class="avatar" data-initial="partner2">P</div>
+            <h3 data-name="partner2">Pooja</h3>
+            <p data-side="partner2"></p>
+          </article>
+        </div>
+      </section>
+
+      <section id="events">
+        <h2>Celebrations</h2>
+        <div class="events" id="eventList"></div>
+      </section>
+
+      <section class="venue" id="venue">
+        <h2>Venue</h2>
+        <p data-venue-name></p>
+        <p data-venue-address></p>
+        <a class="map-btn" id="mapBtn" target="_blank" rel="noopener">View on the map</a>
+      </section>
+
+      <section id="rsvp">
+        <h2>Kindly respond</h2>
+        <form id="rsvpForm">
+          <div>
+            <label for="guestName">Your name</label>
+            <input id="guestName" name="name" required autocomplete="name" />
+          </div>
+          <div>
+            <label for="guestCount">Number of guests</label>
+            <input id="guestCount" name="count" type="number" min="1" max="10" value="1" required />
+          </div>
+          <div>
+            <label>Will you join us?</label>
+            <div class="choice">
+              <button type="button" data-rsvp="accept" class="active">Joyfully accept</button>
+              <button type="button" data-rsvp="decline">Regretfully decline</button>
+            </div>
+          </div>
+          <div>
+            <label for="guestNote">A note for the couple</label>
+            <textarea id="guestNote" name="note" placeholder="Your blessings..."></textarea>
+          </div>
+          <button class="open-btn" type="submit">Send RSVP</button>
+        </form>
+      </section>
+
+      <footer data-footer></footer>
+    </main>
+
+    <script>
+      /* Edit this block — everything on the page reads from here */
+      const WEDDING = {
+        partner1: "Ashish",
+        partner2: "Pooja",
+        partner1Side: "Son of Mr. & Mrs. Shah",
+        partner2Side: "With blessings from her family",
+        dateISO: "2026-12-12T18:00:00+05:30",
+        dateShort: "12 . 12 . 2026",
+        dateLong: "Saturday, 12 December 2026",
+        inviteCopy:
+          "With hearts full of joy, we invite you to bless our wedding and celebrate a lifetime of love, laughter, and togetherness.",
+        venueName: "The Grand Celebration Lawn",
+        venueAddress: "Mumbai, India",
+        mapsUrl: "https://maps.google.com/?q=Mumbai",
+        rsvpEmail: "you@example.com",
+        events: [
+          { time: "10:00 AM", title: "Haldi", note: "A morning of turmeric, music, and laughter" },
+          { time: "05:00 PM", title: "Mehndi", note: "Henna, songs, and the start of festivities" },
+          { time: "06:00 PM", title: "Wedding ceremony", note: "The sacred vows, under the evening sky" },
+          { time: "08:30 PM", title: "Reception dinner", note: "Dinner, dance, and blessings" },
+        ],
+      };
+
+      const $ = (sel, root = document) => root.querySelector(sel);
+      const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+      function applyContent() {
+        $$("[data-name]").forEach((el) => {
+          el.textContent = WEDDING[el.dataset.name];
+        });
+        $$("[data-initial]").forEach((el) => {
+          el.textContent = WEDDING[el.dataset.initial].charAt(0);
+        });
+        $$("[data-side]").forEach((el) => {
+          el.textContent = WEDDING[el.dataset.side + "Side"];
+        });
+        $$("[data-date-short]").forEach((el) => (el.textContent = WEDDING.dateShort));
+        $$("[data-date-long]").forEach((el) => (el.textContent = WEDDING.dateLong));
+        $("[data-invite-copy]").textContent = WEDDING.inviteCopy;
+        $("[data-venue-name]").textContent = WEDDING.venueName;
+        $("[data-venue-address]").textContent = WEDDING.venueAddress;
+        $("#mapBtn").href = WEDDING.mapsUrl;
+        $("[data-footer]").textContent = `${WEDDING.partner1} & ${WEDDING.partner2}`;
+        document.title = `${WEDDING.partner1} & ${WEDDING.partner2} — Wedding Invitation`;
+
+        $("#eventList").innerHTML = WEDDING.events
+          .map(
+            (event) => `
+            <article class="event">
+              <time>${event.time}</time>
+              <div>
+                <h3>${event.title}</h3>
+                <p>${event.note}</p>
+              </div>
+            </article>`
+          )
+          .join("");
+      }
+
+      function tickCountdown() {
+        const end = new Date(WEDDING.dateISO).getTime();
+        const now = Date.now();
+        let diff = Math.max(0, end - now);
+        const units = [
+          ["Days", 86400000],
+          ["Hours", 3600000],
+          ["Minutes", 60000],
+          ["Seconds", 1000],
+        ];
+        const html = units
+          .map(([label, ms]) => {
+            const value = Math.floor(diff / ms);
+            diff %= ms;
+            return `<div class="count-box"><strong>${String(value).padStart(2, "0")}</strong><span>${label}</span></div>`;
+          })
+          .join("");
+        $("#countdown").innerHTML = html;
+      }
+
+      $("#openBtn").addEventListener("click", () => {
+        $("#cover").classList.add("hidden");
+        $("#page").classList.add("visible");
+        $("#nav").classList.add("visible");
+        document.body.style.overflow = "auto";
+      });
+
+      let rsvpStatus = "accept";
+      $$("[data-rsvp]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          rsvpStatus = btn.dataset.rsvp;
+          $$("[data-rsvp]").forEach((b) => b.classList.toggle("active", b === btn));
+        });
+      });
+
+      $("#rsvpForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = $("#guestName").value.trim();
+        const count = $("#guestCount").value;
+        const note = $("#guestNote").value.trim();
+        const status = rsvpStatus === "accept" ? "Accepted" : "Declined";
+        const subject = encodeURIComponent(`Wedding RSVP — ${status} — ${name}`);
+        const body = encodeURIComponent(
+          `Name: ${name}\nGuests: ${count}\nRSVP: ${status}\nNote: ${note || "—"}`
+        );
+        window.location.href = `mailto:${WEDDING.rsvpEmail}?subject=${subject}&body=${body}`;
+      });
+
+      function sparkles() {
+        const canvas = $("#sparkle");
+        const ctx = canvas.getContext("2d");
+        let w, h, dots;
+
+        function resize() {
+          w = canvas.width = window.innerWidth;
+          h = canvas.height = window.innerHeight;
+          dots = Array.from({ length: 48 }, () => ({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 1.6 + 0.3,
+            a: Math.random() * Math.PI * 2,
+            s: 0.15 + Math.random() * 0.35,
+          }));
+        }
+
+        function frame() {
+          ctx.clearRect(0, 0, w, h);
+          dots.forEach((d) => {
+            d.y -= d.s;
+            d.a += 0.02;
+            if (d.y < -4) d.y = h + 4;
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(201, 162, 122, ${0.25 + Math.sin(d.a) * 0.25})`;
+            ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+            ctx.fill();
+          });
+          requestAnimationFrame(frame);
+        }
+
+        window.addEventListener("resize", resize);
+        resize();
+        frame();
+      }
+
+      applyContent();
+      tickCountdown();
+      setInterval(tickCountdown, 1000);
+      sparkles();
+    </script>
+  </body>
+</html>
